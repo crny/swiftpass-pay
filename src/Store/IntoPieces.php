@@ -744,7 +744,7 @@ class IntoPieces
     private $charset;
     private $security_key;
 
-    const URL = 'http://35api.test.swiftpass.cn/sppay-interface-war/gateway';
+    const URL = 'http://ccbzj.test.swiftpass.cn/sppay-interface-war/gateway';
 
     public function __construct($partner,$security_key,$dataType = 'json',$charset = 'UTF-8')
     {
