@@ -13,7 +13,7 @@ class IntoPiecesTest extends PHPUnit_Framework_TestCase
 {
 
     public function testPicUploader(){
-        $obj = new IntoPieces('100590006610','35aa6c203b7b4218713153f6d8dc39ec','xml');
+        $obj = new IntoPieces('103540003211','a22ffc6580b8afce8794e17d1201c50f','xml');
         $response = $obj->UploadPic(1,'C:/Users/pro4/Pictures/Camera Roll/1.jpg');
         $this->assertArrayHasKey('pic',$response);
     }
@@ -21,7 +21,7 @@ class IntoPiecesTest extends PHPUnit_Framework_TestCase
 
     public function testNormalMchAdd(){
 
-        $obj = new IntoPieces('100590006610','35aa6c203b7b4218713153f6d8dc39ec','xml');
+        $obj = new IntoPieces('103540003211','a22ffc6580b8afce8794e17d1201c50f','xml');
         $data = array();
         $response1 = $obj->UploadPic(1,'C:/Users/pro4/Pictures/Camera Roll/1.jpg');
         $response2 = $obj->UploadPic(1,'C:/Users/pro4/Pictures/Camera Roll/1.jpg');
@@ -63,6 +63,7 @@ class IntoPiecesTest extends PHPUnit_Framework_TestCase
             ]
         ];
         $response = $obj->NormalMchAdd($data);
+        var_dump($response);
         $this->assertArrayHasKey('isSuccess',$response);
     }
 }

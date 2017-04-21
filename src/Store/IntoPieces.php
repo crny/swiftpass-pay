@@ -7,16 +7,10 @@
  */
 namespace  SwiftPass\Store;
 use Particle\Validator\Validator;
-use Requests;
-use SwiftPass\Library\Utils;
 
-class IntoPieces
+
+class IntoPieces extends Store
 {
-    protected $Seivces = [
-        'normal_mch_add ', //普通商户进件服务
-        'pic_upload' //图片上传服务
-    ];
-
     protected $industrIds = [
         '111',
         '112',
@@ -738,21 +732,7 @@ class IntoPieces
         10000027,
     ];
 
-    private $partner;
-    private $serviceName ;
-    private $dataType;
-    private $charset;
-    private $security_key;
 
-    const URL = 'http://ccbzj.test.swiftpass.cn/sppay-interface-war/gateway';
-
-    public function __construct($partner,$security_key,$dataType = 'json',$charset = 'UTF-8')
-    {
-        $this->partner = $partner;
-        $this->dataType = $dataType;
-        $this->charset = $charset;
-        $this->security_key = $security_key;
-    }
 
     /** 进件接口实现
      * @param $metaData
@@ -800,11 +780,7 @@ class IntoPieces
             throw new \Exception(json_encode($response->getMessages()));
         }
 
-        $this->serviceName = 'normal_mch_add';
-        $data = $this->DataSerialization($metaData);
-        $postData = $this->GetPostData($data);
-        $response =  $this->Submit($postData);
-        return $this->DataDeserialization($response);
+        return $this->Request('normal_mch_add',$metaData);
     }
 
     /** 上传图片接口实现
@@ -828,71 +804,6 @@ class IntoPieces
         return $this->DataDeserialization($response);
     }
 
-    /** 发送请求到接口
-     * @param $data
-     * @return string
-     * @throws \HttpException
-     */
-    protected function Submit($data){
-        $response = Requests::post(self::URL,[
-            'Content-Type'=>'application/x-www-form-urlencoded;charset=UTF-8'
-        ],$data);
-        if(!$response->success)
-            throw  new \HttpException('http request error');
-        return $response->body;
-    }
-
-    /** 组装最终的请求data（已经做了sign签名）
-     * @param $data
-     * @return array
-     * @throws \Exception
-     */
-    protected function GetPostData($data){
-        $v = new Validator();
-        $v->required('serviceName')->string();
-        $v->required('partner')->string();
-        $v->required('dataType')->string()->inArray(['json','xml']);
-        $v->required('charset')->string();
-        $v->required('data')->string();
-        $metaData = [
-            'partner' => $this->partner,
-            'serviceName' => $this->serviceName,
-            'dataType' => $this->dataType,
-            'charset' => $this->charset,
-            'data' => $data
-        ];
-
-        $valid = $v->validate($metaData);
-        if(!$valid->isValid()){
-            throw  new \Exception(json_encode($valid->getMessages()));
-        }
-        $sign = Utils::partner_signing($metaData,$this->security_key);
-        $metaData['dataSign'] = $sign;
-        return $metaData;
-    }
-
-    /** 根据不同的dataType 转换要发送的的格式（xml or json）
-     * @param $postData
-     * @return mixed|string
-     */
-    private function DataSerialization($postData){
-        if($this->dataType == 'json'){
-            $data = json_encode($postData,JSON_UNESCAPED_UNICODE);
-        }else{
-            $data = Utils::partner_array2xml($postData, $level = 1);
-        }
-        return $data;
-    }
-
-
-    private function DataDeserialization($response){
-        if($this->dataType == 'json'){
-            $data = json_decode($response,true);
-        }else{
-            $data = Utils::xmlToArray($response);
-        }
-        return $data;
-    }
 
     /** 图片上传接口使用的request方法
      * @param $urls
