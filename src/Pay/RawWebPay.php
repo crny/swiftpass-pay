@@ -58,6 +58,7 @@ class RawWebPay extends WebPay
             'mch_id' => $playLoad['mch_id'],
             'is_raw' => 1,
             'out_trade_no' => $playLoad['out_trade_no'],
+            'sign_agentno' => $playLoad['sign_agentno'],
             'body' => $playLoad['body'],
             'total_fee' => $playLoad['total_fee'],
             'mch_create_ip' => $playLoad['mch_create_ip'],
