@@ -49,7 +49,7 @@ class RawAlipay extends WebPay
             'out_trade_no' => $playLoad['out_trade_no'],
             'sign_agentno' => $playLoad['sign_agentno'],
             'body' => $playLoad['body'],
-            'buyer_logon_id' => $playLoad['buyer_logon_id'],
+            'buyer_id' => $playLoad['buyer_id'],
             'total_fee' => $playLoad['total_fee'],
             'mch_create_ip' => $playLoad['mch_create_ip'],
             'notify_url' => $playLoad['notify_url'],
