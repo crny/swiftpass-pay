@@ -2,27 +2,20 @@
 /**
  * Created by PhpStorm.
  * User: pro4
- * Date: 2017/3/30
- * Time: 17:34
+ * Date: 2017/5/3
+ * Time: 18:17
  */
 
 namespace SwiftPass\Pay;
-use Requests;
 use Particle\Validator\Validator;
-use SwiftPass\Exceptions\WechatException;
+use Requests;
 use SwiftPass\Library\Utils;
 use SwiftPass\Library\Xml;
+use SwiftPass\Exceptions\WechatException;
 
-class RawWebPay extends WebPay
+class RawAlipay extends WebPay
 {
-    const SERVICE_NAME = 'pay.weixin.jspay';
-    protected $debug = false;
-    public function __construct($debug)
-    {
-        $this->debug = $debug;
-    }
-
-
+    const SERVICE_NAME = 'pay.alipay.jspay';
     /**预支付订单
      * @param $playLoad array 微信支付相关参数
      * @return mixed
@@ -34,16 +27,11 @@ class RawWebPay extends WebPay
         $v->required('mch_id')->string()->lengthBetween(1,32);
         $v->required('out_trade_no')->string()->lengthBetween(1,32);
         $v->required('body')->string()->lengthBetween(1,127);
-        if($this->debug){
-            $v->optional('sub_openid')->string()->lengthBetween(1,128);
-        }else{
-            $v->required('sub_openid')->string()->lengthBetween(1,128);
-        }
-
         $v->optional('attach')->string()->lengthBetween(1,128);
         $v->required('total_fee')->integer();
         $v->required('mch_create_ip')->string()->lengthBetween(1,16);
         $v->required('notify_url')->string()->url()->lengthBetween(1,255);
+        $v->required('buyer_logon_id')->string()->lengthBetween(1,255);
         $v->required('mchKey')->string();
 
         $valid = $v->validate($playLoad);
@@ -61,14 +49,12 @@ class RawWebPay extends WebPay
             'out_trade_no' => $playLoad['out_trade_no'],
             'sign_agentno' => $playLoad['sign_agentno'],
             'body' => $playLoad['body'],
+            'buyer_logon_id' => $playLoad['buyer_logon_id'],
             'total_fee' => $playLoad['total_fee'],
             'mch_create_ip' => $playLoad['mch_create_ip'],
             'notify_url' => $playLoad['notify_url'],
             'nonce_str' => Utils::randomString()
         ];
-
-        if(isset($playLoad['sub_openid']))
-            $metaData['sub_openid'] = $playLoad['sub_openid'];
 
         if(isset($playLoad['attach']))
             $metaData['attach'] = $playLoad['attach'];

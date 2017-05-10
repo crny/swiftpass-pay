@@ -11,7 +11,6 @@ namespace SwiftPass\Pay;
 
 abstract class WebPay extends Pay
 {
-    const SERVICE_NAME = 'pay.weixin.jspay';
     const VERSION = '2.0';
     const CHARSET = 'UTF-8';
     const SIGN_TYPE = 'MD5';
