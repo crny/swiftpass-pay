@@ -31,7 +31,7 @@ class RawAlipay extends WebPay
         $v->required('total_fee')->integer();
         $v->required('mch_create_ip')->string()->lengthBetween(1,16);
         $v->required('notify_url')->string()->url()->lengthBetween(1,255);
-        $v->required('buyer_logon_id')->string()->lengthBetween(1,255);
+        $v->required('buyer_id')->string()->lengthBetween(1,255);
         $v->required('mchKey')->string();
 
         $valid = $v->validate($playLoad);
