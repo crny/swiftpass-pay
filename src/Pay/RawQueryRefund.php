@@ -13,9 +13,9 @@ use SwiftPass\Exceptions\WechatException;
 use SwiftPass\Library\Utils;
 use SwiftPass\Library\Xml;
 
-class RawRefund extends WebPay
+class RawQueryRefund extends WebPay
 {
-    const SERVICE_NAME = 'unified.trade.refund';
+    const SERVICE_NAME = 'unified.trade.refundquery';
     protected $debug = false;
     public function __construct($debug = false)
     {
@@ -32,11 +32,7 @@ class RawRefund extends WebPay
     {
         $v= new Validator();
         $v->required('mch_id')->string()->lengthBetween(1,32);
-        $v->required('out_trade_no')->string()->lengthBetween(1,32);
         $v->required('out_refund_no')->string()->lengthBetween(1,32);
-        $v->required('total_fee')->integer();
-        $v->required('refund_fee')->integer();
-        $v->required('op_user_id')->string()->lengthBetween(1,32);
         $v->required('mchKey')->string();
 
         $valid = $v->validate($playLoad);
@@ -51,13 +47,7 @@ class RawRefund extends WebPay
             'sign_type' => parent::SIGN_TYPE,
             'mch_id' => $playLoad['mch_id'],
             'sign_agentno' => $playLoad['sign_agentno'],
-            'out_trade_no' => $playLoad['out_trade_no'],
-            //'transaction_id' => $playLoad['out_trade_no'],
             'out_refund_no' => $playLoad['out_refund_no'],
-            'total_fee' => $playLoad['total_fee'],
-            'refund_fee' => $playLoad['refund_fee'],
-            'op_user_id' => $playLoad['op_user_id'],
-            //'refund_channel' => 'ORIGINAL',
             'nonce_str' => Utils::randomString()
         ];
 
