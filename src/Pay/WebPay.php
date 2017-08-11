@@ -28,4 +28,19 @@ abstract class WebPay extends Pay
         $split_joint_n .= "&key={$mch_key}";	//拼接密钥
         return md5($split_joint_n);	//MD5
     }
+
+
+    public function noticeSign($value,$mch_key) {
+        ksort($value, SORT_STRING);	//数组字典序
+        $split_joint = '';
+        foreach ($value as $key => $v){	//拼接
+            if(is_string($v) && $v == ''){
+                continue;
+            }
+            $split_joint .= "{$key}={$v}&";
+        }
+        $split_joint_n = substr($split_joint, 0, -1);	//把最后的符号干掉
+        $split_joint_n .= "&key={$mch_key}";	//拼接密钥
+        return md5($split_joint_n);	//MD5
+    }
 }
