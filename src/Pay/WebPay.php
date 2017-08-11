@@ -15,7 +15,7 @@ abstract class WebPay extends Pay
     const CHARSET = 'UTF-8';
     const SIGN_TYPE = 'MD5';
 
-    protected function Sign($value,$mch_key){
+    public function Sign($value,$mch_key){
         ksort($value, SORT_STRING);	//数组字典序
         $split_joint = '';
         foreach ($value as $key => $v){	//拼接
