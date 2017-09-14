@@ -66,6 +66,9 @@ class RawWebPay extends WebPay
             'notify_url' => $playLoad['notify_url'],
             'nonce_str' => Utils::randomString()
         ];
+        if (isset($playLoad['sub_appid']) && $playLoad['sub_appid']) {
+            $metaData['sub_appid'] = $playLoad['sub_appid'];
+        }
 
         if(isset($playLoad['sub_openid']))
             $metaData['sub_openid'] = $playLoad['sub_openid'];
