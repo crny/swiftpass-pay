@@ -14,7 +14,7 @@ use SwiftPass\Library\Xml;
 
 abstract  class Pay
 {
-    protected $Url = 'https://pay.swiftpass.cn/pay/gateway ';
+    protected $Url = 'https://pay.swiftpass.cn/pay/gateway';
 
     /** 预支付订单
      * @param $playLoad
