@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: pro4
- * Date: 2017/3/30
- * Time: 19:01
+ * Created by sublime.
+ * User: crny
+ * Date: 2018/7/4
+ * Time: 16:34
  */
 
 namespace SwiftPass\Library;
@@ -44,8 +44,10 @@ class Xml
     public function XmlToArray($XmlStr){
         if(empty($XmlStr))
             throw new \InvalidArgumentException('要转换的Xml字符串不存在');
+        $backup = libxml_disable_entity_loader(true);
         $XmlObj = simplexml_load_string($XmlStr);
         $Array = $this->ToArray($XmlObj);
+        libxml_disable_entity_loader($backup);
         return $Array;
     }
     protected function ToArray($XmlObj){

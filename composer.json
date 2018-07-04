@@ -1,12 +1,12 @@
 {
-    "name": "mztli/swiftpass-pay",
+    "name": "crny/swiftpass-pay",
     "license": "MIT",
     "keywords": ["wechat","pay"],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
-            "name": "Maotao",
-            "email": "mzt.live@live.com"
+            "name": "crny",
+            "email": "crny@qq.com"
         }
     ],
     "autoload" :{
